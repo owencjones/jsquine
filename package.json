@@ -1,0 +1,23 @@
+{
+  "name": "javascript-quine",
+  "version": "1.0.0",
+  "description": "A Quine in Javascript",
+  "main": "quine.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/%3Aowencjones/jsquine.git"
+  },
+  "keywords": [
+    "quine",
+    "javascript"
+  ],
+  "author": "Owen C Jones <hi@owencjones.co.uk>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/%3Aowencjones/jsquine/issues"
+  },
+  "homepage": "https://github.com/%3Aowencjones/jsquine#readme"
+}
