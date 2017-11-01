@@ -4,7 +4,7 @@
   "description": "A Quine in Javascript",
   "main": "quine.js",
   "scripts": {
-    "test": "node test.js"
+    "test": "nodemon test.js"
   },
   "repository": {
     "type": "git",
@@ -19,5 +19,9 @@
   "bugs": {
     "url": "https://github.com/%3Aowencjones/jsquine/issues"
   },
-  "homepage": "https://github.com/%3Aowencjones/jsquine#readme"
+  "homepage": "https://github.com/%3Aowencjones/jsquine#readme",
+  "dependencies": {
+    "chalk": "^2.3.0",
+    "nodemon": "^1.12.1"
+  }
 }

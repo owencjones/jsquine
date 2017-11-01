@@ -1,32 +1,26 @@
 // Test whether it actually works
 const fs = require('fs')
 const {execSync} = require('child_process')
+const {basename} = require('path')
+const chalk = require('chalk')
 
-console.log('Beginning test\n\n')
+console.log(chalk.bold('\n ** Beginning tests ** \n\n'))
 
-const pass = false
+const files = fs.readdirSync(__dirname)
+    .filter((filename) => { return filename.endsWith('.js') })
+    .filter(filename => filename !== basename(__filename))
+let passed = 0;
 
-const quineSourceCode = fs.readFileSync('./quine.js').toString().trim();
-const quine = execSync('node quine.js', {cwd: __dirname}).toString().trim();
-let string = '';
-if (quine === quineSourceCode) {
-    string += '     /$$     /$$                                      /$$           /$$\n'
-    string += '    |  $$   /$$/                                     |__/          | $$\n'
-    string += '     \\  $$ /$$//$$$$$$  /$$   /$$       /$$  /$$  /$$ /$$ /$$$$$$$ | $$\n'
-    string += '      \\  $$$$//$$__  $$| $$  | $$      | $$ | $$ | $$| $$| $$__  $$| $$\n'
-    string += '       \\  $$/| $$  \\ $$| $$  | $$      | $$ | $$ | $$| $$| $$  \\ $$|__/\n'
-    string += '        | $$ | $$  | $$| $$  | $$      | $$ | $$ | $$| $$| $$  | $$    \n'
-    string += '        | $$ |  $$$$$$/|  $$$$$$/      |  $$$$$/$$$$/| $$| $$  | $$ /$$\n'
-    string += '        |__/  \\______/  \\______/        \\_____/\\___/ |__/|__/  |__/|__/\n'                                                                       
-} else {
-    string += ' /$$     /$$                         /$$$$$$          /$$ /$$                   /$$           /$$ /$$  /$$$$$$          /$$\n'
-    string += '|  $$   /$$/                        /$$__  $$        |__/| $$                  | $$          | $$|__/ /$$__  $$        | $$\n'
-    string += ' \\  $$ /$$//$$$$$$  /$$   /$$      | $$  \\__//$$$$$$  /$$| $$        /$$$$$$  /$$$$$$        | $$ /$$| $$  \\__//$$$$$$ | $$\n'
-    string += '  \\  $$$$//$$__  $$| $$  | $$      | $$$$   |____  $$| $$| $$       |____  $$|_  $$_/        | $$| $$| $$$$   /$$__  $$| $$\n'
-    string += '   \\  $$/| $$  \\ $$| $$  | $$      | $$_/    /$$$$$$$| $$| $$        /$$$$$$$  | $$          | $$| $$| $$_/  | $$$$$$$$|__/\n'
-    string += '    | $$ | $$  | $$| $$  | $$      | $$     /$$__  $$| $$| $$       /$$__  $$  | $$ /$$      | $$| $$| $$    | $$_____/    \n'
-    string += '    | $$ |  $$$$$$/|  $$$$$$/      | $$    |  $$$$$$$| $$| $$      |  $$$$$$$  |  $$$$/      | $$| $$| $$    |  $$$$$$$ /$$\n'
-    string += '    |__/  \\______/  \\______/       |__/     \\_______/|__/|__/       \\_______/   \\___/        |__/|__/|__/     \\_______/|__/\n'
-}
+files.forEach(file => {
+    const quineSourceCode = fs.readFileSync(file).toString().trim();
+    const quine = execSync(`node ${file}`, {cwd: __dirname}).toString().trim();
+    if (quine === quineSourceCode) {
+        console.log(chalk.green('PASS: ') + file)
+        passed++
+    } else {
+        console.log(chalk.red('FAIL: ') + file)
+        console.log(quine, quineSourceCode)
+    }
+});
 
-console.log(string)
+console.log(chalk.bold('\n\nResult: ') + `${passed} of ${files.length} passed, ${chalk.red(files.length - passed)} failed.`)
